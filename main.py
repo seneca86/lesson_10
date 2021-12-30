@@ -1,6 +1,4 @@
 # %%
-print('Hi')
-# %%
 class Car:
     pass
 model3 = Car()
@@ -28,6 +26,8 @@ class Car:
         print('This is a car')
 # %%
 impreza = Car('Subaru Impreza')
+impreza.introduce()
+Car.introduce(impreza) # equivalent, but less often used
 # %%
 print(f'I want to buy a {impreza.name}')
 # %%
@@ -51,4 +51,36 @@ mustang.introduce()
 mustang.topspeed
 mustang.name
 mustang.full_name()
+# %%
+mustang.name
+# %%
+class SportsCar(Car):
+    def __init__(self, name, top_speed, ad):
+        super().__init__(name)
+        self.topspeed = top_speed
+        self.ad = ad
+    def full_name(self):
+        print(f'{self.name} - {self.ad}')
+
+porsche = SportsCar(name='Porsche GT3', top_speed=230, ad=None)
+porsche.name
+# %%
+class Grandpa:
+    def speaks(self):
+        return 'I am a grandpa'
+class Dad(Grandpa):
+    def speaks(self):
+        return 'I am a dad'
+class Mom(Grandpa):
+    def speaks(self):
+        return 'I am a mom'
+class Boy(Mom, Dad):
+    pass
+class Girl(Dad, Mom):
+    pass
+# %%
+boy = Boy()
+girl = Girl()
+boy.speaks()
+girl.speaks()
 # %%
