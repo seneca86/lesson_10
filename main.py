@@ -24,6 +24,8 @@ class Car:
 class Car:
     def __init__(self, name):
         self.name = name
+    def introduce(self):
+        print('This is a car')
 # %%
 impreza = Car('Subaru Impreza')
 # %%
@@ -35,15 +37,18 @@ issubclass(SportsCar, Car)
 # %%
 viper = SportsCar('Dodge Viper')
 viper.name
+viper.introduce()
 # %%
 class SportsCar(Car):
-    def __init__(self, name, top_speed):
+    def __init__(self, name, top_speed, ad):
         self.name = f'{name} Gran Turismo'
         self.topspeed = top_speed
-    def full_name(self, ad):
-        print(ad)
+        self.ad = ad
+    def full_name(self):
+        print(f'{self.name} - {self.ad}')
 mustang = SportsCar(name='Ford Mustang', top_speed='250', ad='The only slow part is the fuel gauge')
+mustang.introduce()
 mustang.topspeed
 mustang.name
-mustang.full_name
+mustang.full_name()
 # %%
