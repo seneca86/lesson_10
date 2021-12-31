@@ -189,3 +189,25 @@ fans = Fans()
 print(f'{fans.player_name()} - {fans.player_position()}')
 print(f'{lebron.player_name()} - {lebron.player_position()}')
 # %%
+class Word():
+    def __init__(self, content):
+        self.content = content
+    def equals(self, other_word):
+        return self.content.lower() == other_word.content.lower()
+w1 = Word('cloud')
+w2 = Word('CLOUD')
+w3 = Word('storm')
+w1.equals(w2)
+w1.equals(w3)
+# %%
+class Word():
+    def __init__(self, content):
+        self.content = content
+    def __eq__(self, other_word):
+        return self.content.lower() == other_word.content.lower()
+w1 = Word('cloud')
+w2 = Word('CLOUD')
+w3 = Word('storm')
+print(w1 == w2)
+print(w1 == w3)
+# %%

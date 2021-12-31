@@ -356,3 +356,57 @@ print(f'{lebron.player_name()} - {lebron.player_position()}')
 ```
 
 ## Magic Methods
+
+_Magic_ or _Special_ methods are the means by which Python knows that, e.g., `3 + 3` is an arithmetic operation but `'a' + 'b'` is a string concatenation. Magic methods begin and end with a _dunder_ (double underscore).
+
+Let's define a class with an _equal_ method that compares two words and that is not case-sensitive.
+
+```python
+class Word():
+    def __init__(self, content):
+        self.content = content
+    def equals(self, other_word):
+        return self.content.lower() == other_word.content.lower()
+w1 = Word('cloud')
+w2 = Word('CLOUD')
+w3 = Word('storm')
+w1.equals(w2)
+w1.equals(w3)
+```
+
+This works as expected. But instead of writing `equals`, we may want to use the `==` operator. In order to do that, we need to use the _magic_ method `__eq__`.
+
+```python
+class Word():
+    def __init__(self, content):
+        self.content = content
+    def __eq__(self, other_word):
+        return self.content.lower() == other_word.content.lower()
+w1 = Word('cloud')
+w2 = Word('CLOUD')
+w3 = Word('storm')
+print(w1 == w2)
+print(w1 == w3)
+```
+
+The most useful magic methods are:
+| Method | Description |
+|--------|-------------|
+| __eq__( self, other ) | self == other |
+| __ne__( self, other ) | self != other |
+| __lt__( self, other ) | self < other |
+| __gt__( self, other ) | self > other |
+| __le__( self, other ) | self <= other |
+| __ge__( self, other ) | self >= other |
+| __add__( self, other ) | self + other |
+| __sub__( self, other ) | self – other |
+| __mul__( self, other ) | self * other |
+| __floordiv__( self, other ) | self // other |
+| __truediv__( self, other ) | self / other |
+| __mod__( self, other ) | self % other |
+| __pow__( self, other ) | self ** other |
+| __str__( self ) | str( self ) |
+| __repr__( self ) | repr( self ) |
+| __len__( self ) | len( self ) |
+
+`__str__` is the magic method you are most likely to use.
