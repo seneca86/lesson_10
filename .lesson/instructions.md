@@ -166,7 +166,193 @@ A note on nomenclature: when a parent class does not share any method with the o
 
 ## Attribute access
 
+### Properties for access
+
 Sometimes we want objects to ban modification of certain attributes in order to prevent accidental changes.
 
+```python
+class Coin:
+    def __init__(self, input_metal):
+        self.metal = input_metal
+storehold = Coin('gold')
+storehold.metal = 'tin'
+```
 
+On a more advanced note: this can be solved defining _setter_ and _getter_ methods, which is a bit cumbersome and will not be covered here. Python offers a shortcut which is to use two decorators, one for a method that gets the name and another one for the method that retreives the name.
 
+```python
+class Coin:
+    def __init__(self, input_metal):
+        self.hidden_metal = input_metal
+    @property
+    def metal(self):
+        print('Getter method')
+        return self.hidden_metal
+    @metal.setter
+    def metal(self, input_metal):
+        print('Setter method')
+        self.hidden_metal = input_metal
+storehold = Coin('gold')
+print(storehold.metal)
+storehold.metal = 'silver'
+print(storehold.metal)
+```
+
+### Properties for computed values
+
+Let's see how to apply the properties for access in the case of a class with computed values.
+
+```python
+import math
+class sphere():
+    def __init__(self, radius):
+        self.radius = radius
+    @property
+    def volume(self):
+        return (4/3)*math.pi*self.radius**3
+ball = sphere(radius=1)
+ball.radius
+ball.volume
+```
+
+Interestingly, if we change the radius the volume updates automatically.
+
+```python
+ball.radius = 2
+ball.volume
+```
+
+If we tried to set the value of volume from the outside, the operation would fail, because volume is a property.
+
+```python
+ball.volume = 10 # this will not work
+```
+
+### Class and object attributes
+
+Attributes can be assigned to classes and be inherited by their child objects.
+
+```python
+class Furniture:
+    material = 'wood'
+chair = Furniture()
+Furniture.material == chair.material
+```
+
+As expected, chaning the value of the attribute in the child object does not affect tha class attribute. 
+```python
+chair.material == 'iron'
+Furniture.material
+```
+
+Nor changing the class attribute after generating the child will change existing child objects.
+
+```python
+Furniture.material = 'plastic'
+chair.material
+```
+
+But it will affect new ones.
+
+```python
+table = Furniture()
+table.material
+```
+
+## Method types
+
+Some methods are part of the class, some methods are part of the objects that are creates from that class, and some are neither.
+
+- __Instance methods__: where there is no preceding decorator; the first argument must be `self`
+- __Class methods__: if there is a preceding `@classmethod` decorator; the first argument should be `cls`, referring to the class itself
+- __Static methods__: if there is a preceding `@staticmethod`; the first argument is not an object nor a class
+
+### Instance methods
+
+These are the ones we have covered so far.
+
+### Class methods
+
+They affect the class as a whole, i.e. affect all the objects within the class. 
+
+```python
+class Mom():
+    children = 0
+    def __init__(self):
+        Mom.children += 1 # This is the class attribute
+        #self.children += 1 # If we did this, it would be an object attribute
+    def state(self):
+        print('I belong to the family')
+    @classmethod
+    def kids(cls):
+        print(f'We are {cls.children} kids') # Mom.children would also work
+kid1 = Mom()
+Mom.kids()
+kid2 = Mom()
+Mom.kids()
+kid3 = Mom()
+Mom.kids()
+```
+
+### Static methods
+
+A static method does not affect the class or its objects, and lays there just for convenience.
+
+```python
+class Warning():
+    @staticmethod
+    def dog():
+        print('Beware the dog')
+Warning.dog()
+```
+
+We can use a static method without needing to create an object.
+
+## Duck typing
+
+Duck typing refers to Python's implementation of _polymorphism_, which means applying the same operation to different objects. "Duck" comes from the saying "if it walks like a duck and quacks like a duck, it is a duck", meaning that Python will infer the type of the object based on its properties.
+
+Let's define two child classes while keeping the `__init__` method on the parent.
+
+```python
+class Player():
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position
+    def player_name(self):
+        return self.name
+    def player_position(self):
+        return f'Plays as {self.position}'
+class Soccer(Player):
+    def player_position(self):
+        return f'Plays soccer as {self.position}'
+class Basketball(Player):
+    def player_position(self):
+        return f'Plays basketball as {self.position}'
+
+federer = Player(name='Roger Federer', position='N/A')
+ronaldo = Soccer(name='Cristiano Ronaldo', position='forward')
+lebron = Basketball(name='LeBron James', position='shooting guard')
+
+print(f'{federer.name} - {federer.player_position()}')
+print(f'{ronaldo.name} - {ronaldo.player_position()}')
+print(f'{lebron.name} - {lebron.player_position()}')
+```
+
+Note how the different versions of `player_position` provide different
+behaviors: this is _polymorphism_. 
+
+If we define a class completely unrelated to the ones before, but that has methods of the same name, Python will know which method to apply to which object.
+
+```python
+class Fans():
+    def player_name(self):
+        return 'anonymous'
+    def player_position(self):
+        return 'located in the stands of the arena'
+fans = Fans()
+print(f'{fans.player_name()} - {fans.player_position()}')
+print(f'{lebron.player_name()} - {lebron.player_position()}')
+```
+
+## Magic Methods

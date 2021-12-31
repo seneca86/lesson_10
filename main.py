@@ -84,3 +84,108 @@ girl = Girl()
 boy.speaks()
 girl.speaks()
 # %%
+class Coin:
+    def __init__(self, input_metal):
+        self.metal = input_metal
+storehold = Coin('gold')
+storehold.metal = 'tin'
+# %%
+class Coin:
+    def __init__(self, input_metal):
+        self.hidden_metal = input_metal
+    @property
+    def metal(self):
+        print('Getter method')
+        return self.hidden_metal
+    @metal.setter
+    def metal(self, input_metal):
+        print('Setter method')
+        self.hidden_metal = input_metal
+storehold = Coin('gold')
+print(storehold.metal)
+storehold.metal = 'silver'
+print(storehold.metal)
+# %%
+import math
+class sphere():
+    def __init__(self, radius):
+        self.radius = radius
+    @property
+    def volume(self):
+        return (4/3)*math.pi*self.radius**3
+ball = sphere(radius=1)
+ball.radius
+ball.volume
+# %%
+ball.radius = 2
+ball.volume
+# %%
+class Furniture:
+    material = 'wood'
+chair = Furniture()
+Furniture.material == chair.material
+# %%
+chair.material = 'iron'
+Furniture.material
+# %%
+Furniture.material = 'plastic'
+chair.material
+# %%
+table = Furniture()
+table.material
+# %%
+class Mom():
+    children = 0
+    def __init__(self):
+        Mom.children += 1 # This is the class attribute
+        #self.children += 1 # If we did this, it would be an object attribute
+    def state(self):
+        print('I belong to the family')
+    @classmethod
+    def kids(cls):
+        print(f'We are {cls.children} kids') # Mom.children would also work
+kid1 = Mom()
+Mom.kids()
+kid2 = Mom()
+Mom.kids()
+kid3 = Mom()
+Mom.kids()
+# %%
+class Warning():
+    @staticmethod
+    def dog():
+        print('Beware the dog')
+Warning.dog()
+# %%
+class Player():
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position
+    def player_name(self):
+        return self.name
+    def player_position(self):
+        return f'Plays as {self.position}'
+class Soccer(Player):
+    def player_position(self):
+        return f'Plays soccer as {self.position}'
+class Basketball(Player):
+    def player_position(self):
+        return f'Plays basketball as {self.position}'
+
+federer = Player(name='Roger Federer', position='N/A')
+ronaldo = Soccer(name='Cristiano Ronaldo', position='forward')
+lebron = Basketball(name='LeBron James', position='shooting guard')
+
+print(f'{federer.name} - {federer.player_position()}')
+print(f'{ronaldo.name} - {ronaldo.player_position()}')
+print(f'{lebron.name} - {lebron.player_position()}')
+# %%
+class Fans():
+    def player_name(self):
+        return 'anonymous'
+    def player_position(self):
+        return 'located in the stands of the arena'
+fans = Fans()
+print(f'{fans.player_name()} - {fans.player_position()}')
+print(f'{lebron.player_name()} - {lebron.player_position()}')
+# %%
