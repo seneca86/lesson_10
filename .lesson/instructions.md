@@ -239,7 +239,7 @@ chair = Furniture()
 Furniture.material == chair.material
 ```
 
-As expected, chaning the value of the attribute in the child object does not affect tha class attribute. 
+As expected, changing the value of the attribute in the child object does not affect tha class attribute. 
 ```python
 chair.material == 'iron'
 Furniture.material
