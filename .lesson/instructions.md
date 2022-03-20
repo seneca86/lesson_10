@@ -390,6 +390,7 @@ print(w1 == w3)
 ```
 
 The most useful magic methods are:
+
 | Method | Description |
 |--------|-------------|
 | __eq__( self, other ) | self == other |
